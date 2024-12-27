@@ -1,7 +1,7 @@
-package it.ferrarispancaldo.configuration.tools;
+package it.ferrarispancaldo.adtools.configuration.tools;
 
-import it.ferrarispancaldo.configuration.types.LocalConfiguration;
-import it.ferrarispancaldo.configuration.types.DomainConfiguration;
+import it.ferrarispancaldo.adtools.configuration.types.LocalConfiguration;
+import it.ferrarispancaldo.adtools.configuration.types.DomainConfiguration;
 
 import org.yaml.snakeyaml.Yaml;
 

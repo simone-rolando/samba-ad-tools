@@ -1,4 +1,4 @@
-package it.ferrarispancaldo.configuration.types;
+package it.ferrarispancaldo.adtools.configuration.types;
 
 /**
  * The {@code LocalConfiguration} class represents the configuration for a local domain
