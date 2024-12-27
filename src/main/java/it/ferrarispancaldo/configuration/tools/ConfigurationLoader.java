@@ -3,7 +3,6 @@ package it.ferrarispancaldo.configuration.tools;
 import it.ferrarispancaldo.configuration.types.LocalConfiguration;
 import it.ferrarispancaldo.configuration.types.DomainConfiguration;
 
-import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.Yaml;
 
 import java.io.FileInputStream;
@@ -11,7 +10,7 @@ import java.io.IOException;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
-public class ConfigurationManager {
+public class ConfigurationLoader {
     /**
      * Domain configuration default file
      */
@@ -25,7 +24,7 @@ public class ConfigurationManager {
     /**
      * Singleton static instance of this class
      */
-    private static ConfigurationManager instance;
+    private static ConfigurationLoader instance;
 
     /**
      * Global concurrency lock
@@ -42,11 +41,11 @@ public class ConfigurationManager {
      */
     private DomainConfiguration domainConfiguration;
 
-    private ConfigurationManager() {
+    private ConfigurationLoader() {
 
     }
 
-    private ConfigurationManager(String localConfigFile, String domainConfigFile) {
+    private ConfigurationLoader(String localConfigFile, String domainConfigFile) {
 
     }
 
