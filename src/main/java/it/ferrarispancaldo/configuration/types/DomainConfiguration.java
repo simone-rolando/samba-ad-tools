@@ -1,4 +1,4 @@
-package it.ferrarispancaldo.configuration;
+package it.ferrarispancaldo.configuration.types;
 
 /**
  * The {@code DomainConfiguration} class represents the configuration for a domain setup.
