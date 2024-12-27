@@ -12,32 +12,53 @@ public class DomainConfiguration {
     /**
      * Fully qualified domain name of the AD Realm (LDAP search base)
      */
+    @SuppressWarnings("unused")
     private String fqdn;
 
     /**
      * NT Domain name used for NETBIOS backward compatibility
      */
+    @SuppressWarnings("unused")
     private String ntDomain;
+
+    /**
+     * Domain Controller IPv4 address
+     */
+    @SuppressWarnings("unused")
+    private String dcIpAddress;
 
     /**
      * Domain Controller fully qualified domain name
      */
+    @SuppressWarnings("unused")
     private String dcFqdn;
 
     /**
      * Domain Controller NT NETBIOS name
      */
+    @SuppressWarnings("unused")
     private String dcNtName;
 
     /**
      * NT UNC path to the users share
      */
+    @SuppressWarnings("unused")
     private String ntUsersShare;
 
     /**
      * NT UNC path to the profiles share (or path in a share)
      */
+    @SuppressWarnings("unused")
     private String ntProfilesShare;
+
+    /**
+     * Gets the Domain Controller IPv4 address.
+     *
+     * @return the Domain Controller IPv4 address.
+     */
+    public String getDcIpAddress() {
+        return dcIpAddress;
+    }
 
     /**
      * Gets the Fully Qualified Domain Name (FQDN) of the domain.
