@@ -3,16 +3,10 @@ package it.ferrarispancaldo.adtools.ldap.system;
 import it.ferrarispancaldo.adtools.logging.LogUtils;
 import it.ferrarispancaldo.adtools.ldap.interfaces.LdapConnectionManager;
 
-import org.apache.directory.api.ldap.model.schema.registries.SchemaLoader;
-import org.apache.directory.api.ldap.schema.manager.impl.DefaultSchemaManager;
-import org.apache.directory.ldap.client.api.DefaultSchemaLoader;
 import org.apache.logging.log4j.Logger;
 
-import org.apache.directory.api.ldap.model.name.Dn;
-import org.apache.directory.api.ldap.model.schema.SchemaManager;
 import org.apache.directory.ldap.client.api.LdapConnection;
 import org.apache.directory.ldap.client.api.LdapNetworkConnection;
-import org.apache.directory.api.ldap.model.message.BindRequestImpl;
 
 /**
  * Class {@code ActiveDirectoryConnectionManager} implements an Active Directory
