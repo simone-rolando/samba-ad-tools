@@ -76,7 +76,7 @@ public class ConfigurationLoader {
      * Gets the instance of the {@code ConfigurationLoader} from custom config files paths
      * @param localConfigFile custom local configuration file path
      * @param domainConfigFile custom domain configuration file path
-     * @return instace of the {@code ConfigurationLoader}
+     * @return instance of the {@code ConfigurationLoader}
      */
     public static ConfigurationLoader getInstance(String localConfigFile, String domainConfigFile) {
         if (instance == null) {
@@ -114,13 +114,13 @@ public class ConfigurationLoader {
         try (FileInputStream localStream = new FileInputStream(localConfigFile)) {
             localConfiguration = localConfig.loadAs(localStream, LocalConfiguration.class);
         } catch (IOException e) {
-            logger.fatal("Error occured while loading local configuration file: {}", localConfigFile, e);
+            logger.fatal("Error occurred while loading local configuration file: {}", localConfigFile, e);
         }
 
         try (FileInputStream domainStream = new FileInputStream(domainConfigFile)) {
             domainConfiguration = domainConfig.loadAs(domainStream, DomainConfiguration.class);
         } catch (IOException e) {
-            logger.fatal("Error occured while loading domain configuration file: {}", domainConfigFile, e);
+            logger.fatal("Error occurred while loading domain configuration file: {}", domainConfigFile, e);
         }
     }
 }
