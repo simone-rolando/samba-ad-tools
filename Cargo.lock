@@ -106,6 +106,9 @@ dependencies = [
 [[package]]
 name = "domain-adduser"
 version = "0.1.0"
+dependencies = [
+ "ldap_adaptor",
+]
 
 [[package]]
 name = "errno"

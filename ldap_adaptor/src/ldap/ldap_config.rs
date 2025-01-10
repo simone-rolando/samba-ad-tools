@@ -3,11 +3,11 @@ use std::fs;
 
 #[derive(Deserialize, Debug)]
 pub struct LdapConfig {
-    ldap_domain: String,
-    server_fqdn: String,
-    home_dirs_path: String,
-    nt_domain_name: String,
-    winbind_separator: String
+    pub ldap_domain: String,
+    pub server_fqdn: String,
+    pub home_dirs_path: String,
+    pub nt_domain_name: String,
+    pub winbind_separator: String
 }
 
 ///
@@ -23,4 +23,15 @@ pub fn load_config_from_file(path: &str) -> LdapConfig {
         .expect("Failed to parse TOML file");
 
     config
+}
+
+///
+/// Print current configuration
+/// 
+pub fn print_config(config: &LdapConfig) {
+    println!("LDAP domain: {}", config.ldap_domain);
+    println!("Server FQDN: {}", config.server_fqdn);
+    println!("Home directories: {}", config.home_dirs_path);
+    println!("NT Domain name: {}", config.nt_domain_name);
+    println!("Winbind separator: {}", config.winbind_separator);
 }
