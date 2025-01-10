@@ -23,7 +23,7 @@ pub fn generate_adduser_ldif(user: &User, config: &LdapConfig) -> String {
     let dc_domain = tools::get_domain_dc_from_fqdn(&config.ad_domain);
 
     // Generate DN string
-    let dn = format!("dn: {},CN=Users,{}", &user.username, dc_domain);
+    let dn = format!("{},CN=Users,{}", &user.username, dc_domain);
 
     // CN is username
     let cn = user.username.clone();
