@@ -1,4 +1,4 @@
-use ldap_adaptor::{config, user_ldif::{generate_add_member_ldif, generate_adduser_ldif, generate_sam_ldif, User}, group_ldif::Groups};
+use ldap_adaptor::{config, group_ldif::{generate_addgroup_ldif, Groups}, user_ldif::{generate_add_member_ldif, generate_adduser_ldif, generate_sam_ldif, User}};
 
 fn main() {
     let config = config::load_config_from_file("/etc/ad/settings.toml");
@@ -18,7 +18,10 @@ fn main() {
     let sam_ldif = generate_sam_ldif(&user, &config);
     let chgrp_ldif = generate_add_member_ldif(&user, &config, &"Domain Admins".to_string());
 
+    let addgroup_ldif = generate_addgroup_ldif(&"Prova".to_string(), &config);
+
     println!("\n{}", ldif);
     println!("\n{}", sam_ldif);
     println!("\n{}", chgrp_ldif);
+    println!("\n{}", addgroup_ldif);
 }
