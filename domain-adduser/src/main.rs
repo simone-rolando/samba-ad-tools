@@ -1,4 +1,4 @@
-use ldap_adaptor::{config, user_ldif::{generate_add_member_ldif, generate_adduser_ldif, generate_sam_ldif, Groups, User}};
+use ldap_adaptor::{config, user_ldif::{generate_add_member_ldif, generate_adduser_ldif, generate_sam_ldif, User}, group_ldif::Groups};
 
 fn main() {
     let config = config::load_config_from_file("/etc/ad/settings.toml");

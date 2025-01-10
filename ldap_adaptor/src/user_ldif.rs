@@ -1,4 +1,4 @@
-use crate::{config::LdapConfig, tools};
+use crate::{config::LdapConfig, group_ldif::Groups, tools};
 
 ///
 /// User struct for LDIF generation
@@ -9,15 +9,6 @@ pub struct User {
     pub first_name: String,
     pub last_name: String,
     pub groups: Groups
-}
-
-///
-/// Groups struct for LDIF generation
-/// 
-#[derive(Clone)]
-pub struct Groups {
-    pub first_group: String,
-    pub second_group: String
 }
 
 ///
