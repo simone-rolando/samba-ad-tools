@@ -1,19 +1,23 @@
-use ldap3::Ldap;
-
 use crate::{config::LdapConfig, tools};
 
-/// Quantity of groups
-pub const GROUPS_SIZE: usize = 2;
-
 ///
-/// User struct for LDIF
+/// User struct for LDIF generation
 /// 
 #[derive(Clone)]
 pub struct User {
     pub username: String,
     pub first_name: String,
     pub last_name: String,
-    pub groups: [String; GROUPS_SIZE],
+    pub groups: Groups
+}
+
+///
+/// Groups struct for LDIF generation
+/// 
+#[derive(Clone)]
+pub struct Groups {
+    pub first_group: String,
+    pub second_group: String
 }
 
 ///
@@ -103,4 +107,35 @@ replace: sAMAccountName
 sAMAccountName: {}",
     &dn,
     &user.username)
+}
+
+///
+/// Generates a sAMAccountName LDIF text
+/// 
+/// Arguments:
+/// * `user`: immutable reference to User
+/// * `config`: immutable reference to LdapConfig
+/// * `new_grp`: new group
+/// 
+/// Returns:
+/// * a string containing the LDIF generated text
+/// 
+pub fn generate_add_member_ldif(user: &User, config: &LdapConfig, new_grp: &String) -> String {
+    // Find DC domain
+    let dc_domain = tools::get_domain_dc_from_fqdn(&config.ad_domain);
+
+    // Generate group DN string
+    let group_dn = format!("CN={},CN=Users,{}", new_grp, &dc_domain);
+
+    // Generatr user DN string
+    let user_dn = format!("CN={},CN=Users,{}", &user.username, &dc_domain);
+
+    format!(
+r"dn: {}
+changetype: modify
+add: member
+member: {}
+",
+    &group_dn,
+    &user_dn)
 }
