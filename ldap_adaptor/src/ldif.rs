@@ -1,4 +1,4 @@
-use crate::{ldap_config::LdapConfig, tools};
+use crate::{config::LdapConfig, tools};
 
 #[derive(Clone)]
 pub struct User {

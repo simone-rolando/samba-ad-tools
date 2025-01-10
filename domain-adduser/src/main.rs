@@ -1,8 +1,8 @@
-use ldap_adaptor::{ldap_config, ldif::{generate_adduser_ldif, User}};
+use ldap_adaptor::{config, ldif::{generate_adduser_ldif, User}};
 
 fn main() {
-    let config = ldap_config::load_config_from_file("/etc/ad/settings.toml");
-    ldap_config::print_config(&config);
+    let config = config::load_config_from_file("/etc/ad/settings.toml");
+    config::print_config(&config);
 
     let user = User {
         username: "testuser".to_string(),
