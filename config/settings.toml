@@ -1,5 +1,7 @@
 ad_domain = "ferrpanc.local"
 server_fqdn = "galleon.ferrpanc.local"
 home_dirs_path = "/home/userdata/users"
+home_dirs_share = "\\\\galleon\\users"
+home_dir_letter = "H:"
 nt_domain_name = "FERRPANC"
 winbind_separator = "+"

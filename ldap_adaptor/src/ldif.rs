@@ -1,6 +1,4 @@
-use std::collections::HashMap;
-
-use crate::tools;
+use crate::{ldap_config::LdapConfig, tools};
 
 #[derive(Clone)]
 pub struct User {
@@ -10,24 +8,64 @@ pub struct User {
     pub groups: [String; 2],
 }
 
-/// Default user settings
-const USER_OBJECT_CLASS: &'static str = 
-r"objectClass: top
-objectClass: person
-objectClass: organizationalPerson
-objectClass: user";
-
-pub fn generate_adduser_ldif(user: String, first_name: String, last_name: String, domain: String) -> String {
-    let mut ldif = String::new();
-
+///
+/// Generates a user LDIF given its user properties and domain configuration.
+/// This generates LDIF text to add a user to the domain.
+/// 
+/// Arguments:
+/// * `user`: immutable reference to User
+/// * `config`: immutable reference to LdapConfig
+/// 
+/// Returns:
+/// * a string containing the LDIF generated text
+pub fn generate_adduser_ldif(user: &User, config: &LdapConfig) -> String {
     // Find DC domain
-    let dc_domain = tools::get_domain_dc_from_fqdn(domain);
+    let dc_domain = tools::get_domain_dc_from_fqdn(&config.ad_domain);
 
     // Generate DN string
-    let dn = format!("dn: {},CN=Users,{}", user, dc_domain);
+    let dn = format!("dn: {},CN=Users,{}", &user.username, dc_domain);
 
     // CN is username
-    let cn = user.clone();
+    let cn = user.username.clone();
 
-    "".to_string()
+    // Home directory
+    let home = format!("{}\\{}", &config.home_dirs_share, &user.username);
+
+    // Profiles directory
+    let profiles = format!("{}\\.profiles\\{}", &home, &user.username);
+
+    // Display name
+    let display_name = format!("{} {}", &user.first_name, &user.last_name);
+
+    format!(
+r"dn: {}
+objectClass: top
+objectClass: person
+objectClass: organizationalPerson
+objectClass: user
+cn: {}
+sn: {}
+givenName: {}
+instanceType: 4
+name: {}
+codePage: 0
+countryCode: 0
+homeDirectory: {}
+homeDrive: {}
+profilePath: {}
+objectCategory: CN=Person,CN=Schema,CN=Configuration,{}
+displayName: {}
+distinguishedName: {}",
+    dn,
+    &cn,
+    &user.last_name,
+    &user.first_name,
+    &cn,
+    &home,
+    &config.home_drive_letter,
+    &profiles,
+    &dc_domain,
+    &display_name,
+    &dn
+    )
 }

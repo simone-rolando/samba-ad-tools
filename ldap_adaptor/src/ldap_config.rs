@@ -9,6 +9,8 @@ pub struct LdapConfig {
     pub ad_domain: String,
     pub server_fqdn: String,
     pub home_dirs_path: String,
+    pub home_dirs_share: String,
+    pub home_drive_letter: String,
     pub nt_domain_name: String,
     pub winbind_separator: String
 }
