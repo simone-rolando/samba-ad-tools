@@ -5,3 +5,7 @@ version = 4
 [[package]]
 name = "domain-adduser"
 version = "0.1.0"
+
+[[package]]
+name = "ldap_adaptor"
+version = "0.1.0"
