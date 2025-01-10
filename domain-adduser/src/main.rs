@@ -1,4 +1,4 @@
-use ldap_adaptor::{config, ldif::{generate_adduser_ldif, User}};
+use ldap_adaptor::{config, ldif::{generate_adduser_ldif, generate_sam_ldif, User}};
 
 fn main() {
     let config = config::load_config_from_file("/etc/ad/settings.toml");
@@ -15,6 +15,8 @@ fn main() {
     };
 
     let ldif = generate_adduser_ldif(&user, &config);
+    let sam_ldif = generate_sam_ldif(&user, &config);
 
-    println!("\nGenerated LDIF:\n{}", ldif);
+    println!("\n{}", ldif);
+    println!("\n{}", sam_ldif);
 }

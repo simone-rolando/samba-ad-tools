@@ -1,11 +1,19 @@
+use ldap3::Ldap;
+
 use crate::{config::LdapConfig, tools};
 
+/// Quantity of groups
+pub const GROUPS_SIZE: usize = 2;
+
+///
+/// User struct for LDIF
+/// 
 #[derive(Clone)]
 pub struct User {
     pub username: String,
     pub first_name: String,
     pub last_name: String,
-    pub groups: [String; 2],
+    pub groups: [String; GROUPS_SIZE],
 }
 
 ///
@@ -18,12 +26,13 @@ pub struct User {
 /// 
 /// Returns:
 /// * a string containing the LDIF generated text
+/// 
 pub fn generate_adduser_ldif(user: &User, config: &LdapConfig) -> String {
     // Find DC domain
     let dc_domain = tools::get_domain_dc_from_fqdn(&config.ad_domain);
 
     // Generate DN string
-    let dn = format!("{},CN=Users,{}", &user.username, dc_domain);
+    let dn = format!("CN={},CN=Users,{}", &user.username, &dc_domain);
 
     // CN is username
     let cn = user.username.clone();
@@ -68,4 +77,30 @@ distinguishedName: {}",
     &display_name,
     &dn
     )
+}
+
+///
+/// Generates a sAMAccountName LDIF text
+/// 
+/// Arguments:
+/// * `user`: immutable reference to User
+/// * `config`: immutable reference to LdapConfig
+/// 
+/// Returns:
+/// * a string containing the LDIF generated text
+/// 
+pub fn generate_sam_ldif(user: &User, config: &LdapConfig) -> String {
+    // Find DC domain
+    let dc_domain = tools::get_domain_dc_from_fqdn(&config.ad_domain);
+
+    // Generate DN string
+    let dn = format!("CN={},CN=Users,{}", &user.username, &dc_domain);
+
+    format!(
+r"dn: {}
+changetype: modify
+replace: sAMAccountName
+sAMAccountName: {}",
+    &dn,
+    &user.username)
 }
