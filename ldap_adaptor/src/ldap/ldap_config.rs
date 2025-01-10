@@ -3,12 +3,10 @@ use std::fs;
 
 #[derive(Deserialize, Debug)]
 pub struct LdapConfig {
-    samba_path: String,
-    server_name: String,
+    ldap_domain: String,
+    server_fqdn: String,
     home_dirs_path: String,
     nt_domain_name: String,
-    pool_path: String,
-    pool_owner: String,
     winbind_separator: String
 }
 
