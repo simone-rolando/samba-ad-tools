@@ -6,7 +6,7 @@ use std::fs;
 /// 
 #[derive(Deserialize, Debug)]
 pub struct LdapConfig {
-    pub ldap_domain: String,
+    pub ad_domain: String,
     pub server_fqdn: String,
     pub home_dirs_path: String,
     pub nt_domain_name: String,
@@ -32,7 +32,7 @@ pub fn load_config_from_file(path: &str) -> LdapConfig {
 /// Print current configuration
 /// 
 pub fn print_config(config: &LdapConfig) {
-    println!("LDAP domain: {}", config.ldap_domain);
+    println!("AD domain: {}", config.ad_domain);
     println!("Server FQDN: {}", config.server_fqdn);
     println!("Home directories: {}", config.home_dirs_path);
     println!("NT Domain name: {}", config.nt_domain_name);

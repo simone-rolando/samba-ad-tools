@@ -1,4 +1,4 @@
-ldap_domain = "dc=ferrpanc,dc=local"
+ad_domain = "ferrpanc.local"
 server_fqdn = "galleon.ferrpanc.local"
 home_dirs_path = "/home/userdata/users"
 nt_domain_name = "FERRPANC"
