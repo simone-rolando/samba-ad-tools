@@ -1,6 +1,9 @@
 use serde::Deserialize;
 use std::fs;
 
+///
+/// LDAP configuration structure
+/// 
 #[derive(Deserialize, Debug)]
 pub struct LdapConfig {
     pub ldap_domain: String,
