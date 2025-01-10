@@ -1,1 +1,1 @@
-pub mod ldap;
+pub mod ldap_config;

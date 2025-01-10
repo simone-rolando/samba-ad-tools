@@ -1,4 +1,4 @@
-use ldap_adaptor::ldap::ldap_config;
+use ldap_adaptor::ldap_config;
 
 fn main() {
     let config = ldap_config::load_config_from_file("/etc/ad/settings.toml");
