@@ -1,0 +1,22 @@
+dn: CN=testuserldap,CN=Users,DC=ferrpanc,DC=local
+objectClass: top
+objectClass: person
+objectClass: organizationalPerson
+objectClass: user
+cn: testuserldap
+sn: Test User
+givenName: LDAP
+instanceType: 4
+whenCreated: 20210121134242.0Z
+uSNCreated: 7686
+name: testuserldap
+userAccountControl: 512
+codePage: 0
+countryCode: 0
+homeDirectory: \\galleon\users\testuserldap
+homeDrive: H:
+profilePath: \\galleon\users\testuserldap\.profiles\testuserldap
+userPrincipalName: testuserldap@ferrpanc.local
+objectCategory: CN=Person,CN=Schema,CN=Configuration,DC=ferrpanc,DC=local
+displayName: Test User LDAP
+distinguishedName: CN=testuserldap,CN=Users,DC=ferrpanc,DC=local

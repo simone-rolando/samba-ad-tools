@@ -1,0 +1,4 @@
+dn: CN=Domain Admins,CN=Users,DC=ferrpanc,DC=local
+changetype: modify
+add: member
+member: CN=testuserldap,CN=Users,DC=ferrpanc,DC=local
