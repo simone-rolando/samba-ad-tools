@@ -160,3 +160,27 @@ unicodePwd:: {}",
     &user_dn,
     &password)
 }
+
+///
+/// Generates a small LDIF text to delete a user
+/// 
+/// Arguments:
+/// * `user`: immutable reference to User
+/// * `config`: immutable reference to LdapConfig
+/// 
+/// Returns:
+/// * a string containing the LDIF generated text
+/// 
+pub fn generate_deluser_ldif(user: &User, config: &LdapConfig) -> String {
+    // Find DC domain
+    let dc_domain = tools::get_domain_dc_from_fqdn(&config.ad_domain);
+
+    // Generate user DN strings
+    let user_dn = format!("CN={},CN=Users,{}", &user.username, &dc_domain);
+
+    // Generate LDIF
+    format!(
+r"dn: {}
+changetype: delete",
+    &user_dn)
+}
