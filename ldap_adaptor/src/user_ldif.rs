@@ -1,4 +1,4 @@
-use crate::{config::LdapConfig, group_ldif::Groups, tools};
+use crate::{config::LdapConfig, group_ldif::Groups, tools::{self, get_base64_password}};
 
 ///
 /// User struct for LDIF generation
@@ -129,4 +129,34 @@ member: {}
 ",
     &group_dn,
     &user_dn)
+}
+
+///
+/// Generates a password changing LDIF
+/// 
+/// Arguments:
+/// * `user`: immutable reference to User
+/// * `config`: immutable reference to LdapConfig
+/// * `new_passwd`: new password in plain text
+/// 
+/// Returns:
+/// * a string containing the LDIF generated text
+/// 
+pub fn generate_setpasswd_ldif(user: &User, config: &LdapConfig, new_passwd: &String) -> String {
+    // Find DC domain
+    let dc_domain = tools::get_domain_dc_from_fqdn(&config.ad_domain);
+
+    // Generate user DN strings
+    let user_dn = format!("CN={},CN=Users,{}", &user.username, &dc_domain);
+
+    // Generate password
+    let password = get_base64_password(new_passwd);
+
+    format!(
+r"dn: {}
+changetype: modify
+replace: unicodePwd
+unicodePwd:: {}",
+    &user_dn,
+    &password)
 }
