@@ -1,4 +1,0 @@
-dn: CN=testuserldap,CN=Users,DC=ferrpanc,DC=local
-changetype: modify
-replace: unicodePwd
-unicodePwd:: IgBQAHIAbwB2AGEAUAByAG8AdgBhADAAMQAhACIA

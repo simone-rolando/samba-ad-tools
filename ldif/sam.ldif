@@ -1,5 +1,0 @@
-dn: CN=testuserldap,CN=Users,DC=ferrpanc,DC=local
-changetype: modify
-replace: sAMAccountName
-sAMAccountName: testuserldap
-
