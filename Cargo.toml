@@ -1,6 +1,6 @@
 [workspace]
 members = [
 	"fp_tools"
-]
+, "rget-login"]
 
 resolver = "2"
