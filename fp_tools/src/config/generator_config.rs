@@ -2,6 +2,11 @@ use serde::Deserialize;
 use serde_json::Result;
 
 ///
+/// Default MySQL port
+/// 
+pub const DEFAULT_SQL_PORT: u32 = 3306;
+
+///
 /// Generator configuration data
 /// 
 #[derive(Deserialize, Debug, PartialEq, Eq, Clone)]
