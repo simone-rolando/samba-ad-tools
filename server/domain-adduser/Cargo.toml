@@ -1,7 +1,0 @@
-[package]
-name = "domain-adduser"
-version = "0.1.0"
-edition = "2021"
-
-[dependencies]
-ldap_adaptor = { path = "../ldap_adaptor" }

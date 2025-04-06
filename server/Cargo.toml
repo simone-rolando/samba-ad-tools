@@ -1,3 +1,0 @@
-[workspace]
-resolver = "2"
-members = ["domain-adduser", "ldap_adaptor"]
