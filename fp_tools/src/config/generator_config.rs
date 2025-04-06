@@ -37,6 +37,31 @@ impl GeneratorConfig {
             db_pass: db_pass.clone()
         }
     }
+
+    ///
+    /// Get database host IP address or FQDN
+    /// 
+    pub fn get_db_host(&self) -> &String {
+        &self.db_host
+    }
+
+    ///
+    /// Get database name
+    /// 
+    pub fn get_db_name(&self) -> &String {
+        &self.db_name
+    }
+
+    ///
+    /// Get database user
+    pub fn get_db_user(&self) -> &String {
+        &self.db_user
+    }
+
+    /// Get database password
+    pub fn get_db_pass(&self) -> &String {
+        &self.db_pass
+    }
 }
 
 ///
