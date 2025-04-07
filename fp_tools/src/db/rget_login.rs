@@ -1,5 +1,4 @@
 use crate::config::generator_config::{GeneratorConfig, DEFAULT_SQL_PORT};
-use std::str::{self, Bytes};
 use mysql::prelude::*;
 use mysql::*;
 
@@ -60,6 +59,15 @@ pub fn get_db_connection(conn_string: &String) -> Option<PooledConn> {
     Some(conn.unwrap())
 }
 
+///
+/// Performt the query to recover login data from database
+/// 
+/// Arguments:
+/// * `conn`: PooledConn to MySQL / MariaDB database
+/// 
+/// Returns:
+/// * a `Vec<MySQLDomainUser> with all user data`
+/// 
 pub fn get_login_data(conn: &mut PooledConn) -> Vec<MySQLDomainUser> {
     let users: Vec<MySQLDomainUser>;
 
