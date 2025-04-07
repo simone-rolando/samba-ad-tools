@@ -1,6 +1,6 @@
 [workspace]
 members = [
-	"fp_tools"
+	"crates/fp_tools"
 ]
 
 resolver = "2"
