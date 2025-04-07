@@ -1,10 +1,12 @@
 use crate::config::generator_config::{GeneratorConfig, DEFAULT_SQL_PORT};
-use mysql::*;
+use std::str::{self, Bytes};
 use mysql::prelude::*;
+use mysql::*;
 
 ///
 /// MySQL database domain user
 /// 
+#[derive(Debug, Clone, PartialEq, Eq)]
 pub struct MySQLDomainUser {
     pub login: String,
     pub last_name: String,
@@ -14,7 +16,7 @@ pub struct MySQLDomainUser {
     pub tax_code: String,
     pub group: String,
     pub birth_date: String,
-    pub date_modified: String
+    pub date_modified: Option<String>
 }
 
 ///
@@ -58,25 +60,47 @@ pub fn get_db_connection(conn_string: &String) -> Option<PooledConn> {
     Some(conn.unwrap())
 }
 
-pub fn get_login_data(conn: &mut PooledConn, dir_name: &String, file_name: &String) -> Vec<MySQLDomainUser> {
-    let mut users = Vec::<MySQLDomainUser>::new();
+pub fn get_login_data(conn: &mut PooledConn) -> Vec<MySQLDomainUser> {
+    let users: Vec<MySQLDomainUser>;
 
+    const QUERY: &str = "SELECT login, cognome, nome, classe, password, CF, gruppo, data_nascita, data_modifica FROM ALUNNO";
+
+    // Query and get each row as a Vec<Value>
     let result = conn.query_map(
-        "SELECT login, cognome, nome, classe, password, CF, gruppo, data_nascita, data_modifica FROM ALUNNO",
-        |(login, last_name, first_name, class, password, tax_code, group, birth_date, date_modified)| {
+        QUERY,
+        |(login, cognome, nome, classe, password, cf, gruppo, nascita, modifica): (
+            String, String, String, String, String, String, String, Value, Value
+        )| {
+            let birth_date = match nascita {
+                Value::Date(y, m, d, _, _, _, _) => format!("{:04}-{:02}-{:02}", y, m, d),
+                Value::Bytes(v) => String::from_utf8(v).expect("Valid date data"),
+                _ => "NULL".to_string()
+            };
+
+            let date_modified = match modifica {
+                Value::Date(y, m, d, _, _, _, _) => Some(format!("{:04}-{:02}-{:02}", y, m, d)),
+                Value::Bytes(vx) => Some(String::from_utf8(vx).expect("Valid date data")),
+                _ => None
+            };
+
             MySQLDomainUser {
                 login,
-                last_name,
-                first_name,
-                class,
+                last_name: cognome,
+                first_name: nome,
+                class: classe,
                 password,
-                tax_code,
-                group,
+                tax_code: cf,
+                group: gruppo,
                 birth_date,
-                date_modified
+                date_modified,
             }
-        }
+        },
     );
 
+    if result.is_err() {
+        return Vec::new();
+    }
+
+    users = result.unwrap();
     users
 }

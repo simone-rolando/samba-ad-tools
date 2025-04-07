@@ -1,6 +1,7 @@
 [workspace]
 members = [
-	"fp_tools"
+	"fp_tools",
+	"testexec"
 ]
 
 resolver = "2"
