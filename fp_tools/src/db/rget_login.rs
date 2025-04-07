@@ -23,6 +23,7 @@ pub struct MySQLDomainUser {
 /// 
 /// Arguments:
 /// * `config`: GeneratorConfig struct with parsed configuration data
+/// 
 pub fn generate_connection_string(config: &GeneratorConfig) -> String {
     format!(
         "mysql://{}:{}@{}:{}/{}",
@@ -38,6 +39,7 @@ pub fn generate_connection_string(config: &GeneratorConfig) -> String {
 /// 
 /// Arguments:
 /// * `conn_string`: connection URL string generated with the proper function
+/// 
 pub fn get_db_connection(conn_string: &String) -> Option<PooledConn> {
     // Get connection pool from SQL API
     let url: &str = &conn_string;
@@ -111,4 +113,40 @@ pub fn get_login_data(conn: &mut PooledConn) -> Vec<MySQLDomainUser> {
 
     users = result.unwrap();
     users
+}
+
+///
+/// Filter users by class
+/// 
+/// Arguments:
+/// * `users`: vector of users
+/// * `class`: class to filter
+/// 
+/// Returns:
+/// * `Vec<MySQLDomainUser> filtered by class`
+/// 
+pub fn filter_by_class(users: &Vec<MySQLDomainUser>, class: &String) -> Vec<MySQLDomainUser> {
+    users
+        .iter()
+        .filter(|user| user.class == *class)
+        .cloned()
+        .collect()
+}
+
+///
+/// Filter users by group
+/// 
+/// Arguments:
+/// * `users`: vector of users
+/// * `group`: group to filter
+/// 
+/// Returns:
+/// * `Vec<MySQLDomainUser>` filtered by group
+/// 
+pub fn filter_by_group(users: &Vec<MySQLDomainUser>, group: &String) -> Vec<MySQLDomainUser> {
+    users
+        .iter()
+        .filter(|user| user.group == *group)
+        .cloned()
+        .collect()
 }
