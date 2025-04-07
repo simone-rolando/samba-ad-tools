@@ -301,6 +301,9 @@ dependencies = [
 [[package]]
 name = "get-login"
 version = "0.1.0"
+dependencies = [
+ "fp_tools",
+]
 
 [[package]]
 name = "getrandom"

@@ -75,8 +75,8 @@ impl GeneratorConfig {
 /// Arguments:
 /// * file_path: file path to configuration
 /// 
-pub fn read_config_from_file(file_path: &String) -> Option<GeneratorConfig> {
-    let content = read_file(file_path);
+pub fn read_config_from_file(file_path: &str) -> Option<GeneratorConfig> {
+    let content = read_file(&file_path.to_string());
 
     if let Some(content) = content {
         let config = read_config(&content);
