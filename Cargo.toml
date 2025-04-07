@@ -1,6 +1,7 @@
 [workspace]
 members = [
-	"crates/fp_tools"
+	"crates/fp_tools",
+	"executables/get-login"
 ]
 
 resolver = "2"
