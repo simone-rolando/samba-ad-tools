@@ -5,3 +5,5 @@ edition = "2024"
 
 [dependencies]
 fp_tools = { path = "../../crates/fp_tools" }
+clap = { version = "4.5.35", features = ["derive"] }
+chrono = "0.4.40"
