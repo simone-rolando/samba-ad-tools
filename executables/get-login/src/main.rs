@@ -1,3 +1,4 @@
+use std::fs::canonicalize;
 use std::{fs::OpenOptions, process::exit};
 use std::io::prelude::*;
 use std::env::current_dir;
@@ -113,14 +114,24 @@ fn get_paths(out_dir: Option<String>, prefix: Option<String>) -> Paths {
     let mut paths = Paths { out_dir: "".to_string(), prefix: "".to_string() };
 
     if let Some(out_dir) = out_dir {
-        paths.out_dir = out_dir.clone();
+        let correct_path = canonicalize(out_dir)
+            .expect("get-login: cannot canonicalize path")
+            .into_os_string()
+            .into_string()
+            .expect("get-login: cannot convert path buffer to string");
+        paths.out_dir = correct_path.clone();
     } else {
         let cwd_buf = current_dir().expect("get-login: cannot read current working directory");
         paths.out_dir = cwd_buf.into_os_string().into_string().expect("get-login: cannot read path buffer").clone();
     }
 
     if let Some(prefix) = prefix {
-        paths.prefix = prefix;
+        let correct_prefix = canonicalize(prefix)
+            .expect("get-login: cannot canonicalize prefix")
+            .into_os_string()
+            .into_string()
+            .expect("get-login: cannot convert prefix buffer");
+        paths.prefix = correct_prefix.clone();
     } else {
         let current_date = chrono::Utc::now();
         let year = current_date.year();
