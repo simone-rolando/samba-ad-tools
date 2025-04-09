@@ -1,6 +1,6 @@
 [workspace]
 members = [
-	"crates/fp_tools",
+	"crates/fp_tools", "executables/domain-adduser",
 	"executables/get-login"
 ]
 
