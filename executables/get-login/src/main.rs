@@ -126,12 +126,7 @@ fn get_paths(out_dir: Option<String>, prefix: Option<String>) -> Paths {
     }
 
     if let Some(prefix) = prefix {
-        let correct_prefix = canonicalize(prefix)
-            .expect("get-login: cannot canonicalize prefix")
-            .into_os_string()
-            .into_string()
-            .expect("get-login: cannot convert prefix buffer");
-        paths.prefix = correct_prefix.clone();
+        paths.prefix = prefix.clone();
     } else {
         let current_date = chrono::Utc::now();
         let year = current_date.year();
