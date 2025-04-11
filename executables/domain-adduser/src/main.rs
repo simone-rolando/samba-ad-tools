@@ -1,6 +1,6 @@
 use std::{io::{self, Write}, process};
 use clap::{CommandFactory, Parser};
-use fp_tools::{commands::user::is_existing_user, config::tools_config};
+use fp_tools::{commands::user::is_existing_user, config::tools_config, debug_println};
 use rpassword::read_password;
 
 /// 
@@ -32,6 +32,8 @@ fn main() {
         eprintln!("domain-adduser: cannot load config file '/etc/ad/settings.json'");
         process::exit(1)
     }
+
+    debug_println!("{:#?}", &config.as_ref().unwrap());
 
     // If no command has been provided, exit
     if cli.filename.is_none() && cli.interactive.unwrap_or(false) == false && cli.update.unwrap_or(false) == false {
