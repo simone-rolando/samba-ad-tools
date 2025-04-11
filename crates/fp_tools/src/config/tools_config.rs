@@ -5,13 +5,34 @@ use serde::Deserialize;
 /// 
 #[derive(Deserialize, Debug, PartialEq, Eq, Clone)]
 pub struct ToolsConfiguration {
+    #[serde(rename = "sambaPath")] 
     pub samba_path: String,
+
+    #[serde(rename = "srvName")]
     pub srv_name: String,
+
+    #[serde(rename = "homeDirsPath")]
     pub home_dirs_path: String,
+
+    #[serde(rename = "homeDirsShare")]
+    pub home_dirs_share: String,
+
+    #[serde(rename = "domainFqdn")]
     pub domain_fqdn: String,
+
+    #[serde(rename = "ntDomainName")]
     pub nt_domain_name: String,
+
+    #[serde(rename = "poolPath")]
     pub pool_path: String,
+
+    #[serde(rename = "poolShare")]
+    pub pool_share: String,
+
+    #[serde(rename = "poolOwner")]
     pub pool_owner: String,
+
+    #[serde(rename = "winbindSeparator")]
     pub winbind_separator: String
 }
 
