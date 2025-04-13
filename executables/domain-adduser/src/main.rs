@@ -79,18 +79,31 @@ fn main() {
             .map(|s| s.trim()).filter(|s| !s.is_empty())
             .collect();
 
-        let mut password: String;
+        let mut password1 = "".to_string();
+        let mut password2 = "".to_string();
+
+        print!("Enter password: ");
         match read_password() {
-            Ok(pw) => password = pw.clone(),
+            Ok(pw) => password1 = pw.clone(),
             Err(err) => eprintln!("domain-adduser: error reading password. {:#?}", err)
         };
 
-        println!("Collected user information: ");
-        println!("User common name: {}", username);
-        println!("Last name: {}", last_name);
-        println!("First name: {}", first_name);
+        print!("Re-enter password for confirmation: ");
+        match read_password() {
+            Ok(pw) => password2 = pw.clone(),
+            Err(err) => eprintln!("domain-adduser: error reading password confirmation. {:#?}", err)
+        };
+
+        if password1 != password2 {
+            eprintln!("domain-adduser: ")
+        }
+
+        debug_println!("Collected user information: ");
+        debug_println!("User common name: {}", username);
+        debug_println!("Last name: {}", last_name);
+        debug_println!("First name: {}", first_name);
         for group in groups {
-            println!("Member of: {}", group);
+            debug_println!("Member of: {}", group);
         }
     }
 }
