@@ -28,3 +28,31 @@ pub fn is_existing_group(config: &ToolsConfiguration, group: &String) -> bool {
 
     false
 }
+
+///
+/// Add a new group to the Samba domain
+/// 
+/// Arguments:
+/// * `config`: system configuration
+/// * `group`: group name to add
+/// 
+/// Returns:
+/// * boolean `true` on success, `false` otherwise
+/// 
+pub fn add_group(config: &ToolsConfiguration, group: &String) -> bool {
+    let result = common::run_command_with_output(
+        &config.samba_path,
+    &[
+        "group",
+        "add",
+        &format!("\"{}\"", group)
+    ]);
+
+    if let Ok(_) = result {
+        return true;
+    }
+
+    eprintln!("{:?}", result.err());
+
+    false
+}
