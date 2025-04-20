@@ -39,6 +39,8 @@ pub fn is_existing_user(config: &ToolsConfiguration, username: &String) -> bool 
         return result.contains(username);
     }
 
+    eprintln!("{:?}", result.err());
+
     false
 }
 
