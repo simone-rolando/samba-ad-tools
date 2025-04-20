@@ -1,6 +1,21 @@
 use crate::config::tools_config::ToolsConfiguration;
 use crate::commands::common;
 
+const SRV_DELIM: &'static str = "\\\\";
+const PATH_DELIM: &'static str = "\\";
+
+///
+/// Temporary user data
+/// 
+#[derive(Clone, PartialEq, Eq)]
+pub struct DomainUser {
+    pub common_name: String,
+    pub last_name: String,
+    pub first_name: String,
+    pub groups: Vec<String>,
+    pub password: String
+}
+
 ///
 /// Check if a user exists in the samba domain
 /// 
@@ -23,6 +38,68 @@ pub fn is_existing_user(config: &ToolsConfiguration, username: &String) -> bool 
     if let Ok(result) = result {
         return result.contains(username);
     }
+
+    false
+}
+
+///
+/// Add a domain user to the current Samba domain using 'samba-tool'
+/// 
+/// Arguments:
+/// * `config`: system configuration
+/// * `user`: domain user data
+/// 
+/// Returns:
+/// * `true` if successful, `false` otherwise
+/// 
+pub fn add_user(config: &ToolsConfiguration, user: &DomainUser) -> bool {
+
+    let last_name = format!("--surname=\"{}\"", &user.last_name);
+    let first_name = format!("--given-name=\"{}\"", &user.first_name);
+
+    let share = format!(
+        "--home-directory=\"{}{}{}{}{}{}\"",
+        SRV_DELIM,
+        &config.srv_name,
+        PATH_DELIM,
+        &config.home_dirs_share,
+        PATH_DELIM,
+        &user.common_name
+    );
+
+    let profile = format!(
+        "--profile-path=\"{}{}{}{}{}{}{}.profiles{}{}",
+        SRV_DELIM,
+        &config.srv_name,
+        PATH_DELIM,
+        &config.home_dirs_share,
+        PATH_DELIM,
+        &user.common_name,
+        PATH_DELIM,
+        PATH_DELIM,
+        &user.common_name
+    );
+
+    let result = common::run_command_with_output(
+        &config.samba_path,
+    &[
+        "user",
+        "create",
+        &format!("\"{}\"", &user.common_name),
+        &user.password,
+        "--use-username-as-cn",
+        &last_name,
+        &first_name,
+        "--home-drive:H:",
+        &share,
+        &profile
+    ]);
+
+    if let Ok(_) = result {
+        return true;
+    }
+
+    eprintln!("domain-adduser: {:?}", result.err());
 
     false
 }
