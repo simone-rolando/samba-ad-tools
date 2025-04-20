@@ -1,6 +1,6 @@
 use std::{io::{self, Write}, process};
-use clap::{CommandFactory, Parser};
-use fp_tools::{commands::user::is_existing_user, config::tools_config, debug_println};
+use clap::{ArgAction, CommandFactory, Parser};
+use fp_tools::{self, commands::user::is_existing_user, config::tools_config, debug_println, tools};
 use rpassword::read_password;
 
 /// 
@@ -14,15 +14,21 @@ struct Args {
     filename: Option<String>,
 
     /// Interactive option
-    #[arg(short, long)]
-    interactive: Option<bool>,
+    #[arg(short, long, action = ArgAction::SetTrue)]
+    interactive: bool,
 
     /// Update
-    #[arg(short, long)]
-    update: Option<bool>
+    #[arg(short, long, action = ArgAction::SetTrue)]
+    update: bool
 }
 
 fn main() {
+
+    if !tools::has_privileges() {
+        eprintln!("domain-adduser: this program needs to be run in privileged mode!");
+        process::exit(1);
+    }
+
     // Parse command line arguments
     let cli = Args::parse();
 
@@ -36,13 +42,13 @@ fn main() {
     debug_println!("{:#?}", &config.as_ref().unwrap());
 
     // If no command has been provided, exit
-    if cli.filename.is_none() && cli.interactive.unwrap_or(false) == false && cli.update.unwrap_or(false) == false {
+    if cli.filename.is_none() && !cli.interactive && !cli.update {
         eprintln!("{}", Args::command().render_usage());
         process::exit(1)
     }
 
     // Interactive mode handling
-    if cli.interactive.unwrap_or(false) {
+    if cli.interactive {
         print!("Enter user name: ");
         io::stdout().flush().unwrap();
 
@@ -83,12 +89,16 @@ fn main() {
         let mut password2 = "".to_string();
 
         print!("Enter password: ");
+        io::stdout().flush().unwrap();
+
         match read_password() {
             Ok(pw) => password1 = pw.clone(),
             Err(err) => eprintln!("domain-adduser: error reading password. {:#?}", err)
         };
 
         print!("Re-enter password for confirmation: ");
+        io::stdout().flush().unwrap();
+        
         match read_password() {
             Ok(pw) => password2 = pw.clone(),
             Err(err) => eprintln!("domain-adduser: error reading password confirmation. {:#?}", err)
