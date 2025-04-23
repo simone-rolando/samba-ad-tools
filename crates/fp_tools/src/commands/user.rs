@@ -1,3 +1,5 @@
+use std::process;
+
 use crate::config::tools_config::ToolsConfiguration;
 use crate::commands::common;
 
@@ -40,8 +42,7 @@ pub fn is_existing_user(config: &ToolsConfiguration, username: &String) -> bool 
     }
 
     eprintln!("{:?}", result.err());
-
-    false
+    process::exit(1)
 }
 
 ///
@@ -102,6 +103,5 @@ pub fn add_user(config: &ToolsConfiguration, user: &DomainUser) -> bool {
     }
 
     eprintln!("domain-adduser: {:?}", result.err());
-
-    false
+    process::exit(1)
 }
