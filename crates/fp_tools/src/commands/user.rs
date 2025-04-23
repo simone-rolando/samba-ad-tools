@@ -134,3 +134,31 @@ pub fn change_password(config: &ToolsConfiguration, username: &String, password:
     eprintln!("{:?}", result.err());
     process::exit(1)
 }
+
+///
+/// Gets the list of groups associated with this user
+/// 
+/// Arguments:
+/// * `config`: system configuration
+/// * `username`: domain user common name
+/// 
+/// Returns:
+/// * `true` if successful, exit on error
+/// 
+pub fn get_groups(config:& ToolsConfiguration, username: &String) -> Vec<String> {
+    let result = common::run_command_with_output(
+        &config.samba_path,
+        &[
+            "user",
+            "getgroups",
+            &format!("\"{}\"", username)
+        ]
+    );
+
+    if let Ok(result) = result {
+        return result;
+    }
+
+    eprintln!("{:?}", result.err());
+    process::exit(1)
+}
