@@ -1,5 +1,4 @@
 use std::process;
-
 use crate::config::tools_config::ToolsConfiguration;
 use crate::commands::common;
 
