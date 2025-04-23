@@ -1,6 +1,6 @@
+use std::process;
 use crate::config::tools_config::ToolsConfiguration;
-
-use super::{common, user};
+use super::common;
 
 ///
 /// Check if the group exists in the Samba domain
@@ -25,8 +25,7 @@ pub fn is_existing_group(config: &ToolsConfiguration, group: &String) -> bool {
     }
 
     eprintln!("{:?}", result.err());
-
-    false
+    process::exit(1);
 }
 
 ///
@@ -53,8 +52,7 @@ pub fn add_group(config: &ToolsConfiguration, group: &String) -> bool {
     }
 
     eprintln!("{:?}", result.err());
-
-    false
+    process::exit(1);
 }
 
 ///
@@ -84,6 +82,36 @@ pub fn add_member(config: &ToolsConfiguration, group: &String, username: &String
     }
 
     eprintln!("{:?}", result.err());
+    process::exit(1);
+}
 
-    false
+///
+/// Checks the membership of a user in a specific group
+/// 
+/// Arguments:
+/// * `config`: system configuration
+/// * `group`: group name
+/// * `username`: user common name
+/// 
+/// Returns:
+/// * `true` when the user is member, `false` on non-membership or operational error
+/// 
+/// 
+/// 
+pub fn check_membership(config: &ToolsConfiguration, group: &String, username: &String) -> bool {
+    let result = common::run_command_with_output(
+        &config.samba_path,
+        &[
+            "group",
+            "listmembers",
+            &format!("\"{}\"", group)
+        ]
+    );
+
+    if let Ok(result) = result {
+        return result.contains(username);
+    }
+
+    eprintln!("{:?}", result.err());
+    process::exit(1);
 }
