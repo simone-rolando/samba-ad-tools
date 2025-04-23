@@ -104,3 +104,33 @@ pub fn add_user(config: &ToolsConfiguration, user: &DomainUser) -> bool {
     eprintln!("domain-adduser: {:?}", result.err());
     process::exit(1)
 }
+
+///
+/// Changes a user password
+/// 
+/// Arguments:
+/// * `config`: system configuration
+/// * `username`: domain user common name
+/// * `password`: new password
+/// 
+/// Returns:
+/// * `true` if successful, exit on error
+/// 
+pub fn change_password(config: &ToolsConfiguration, username: &String, password: &String) -> bool {
+    let result = common::run_command_with_output(
+        &config.samba_path,
+        &[
+            "user",
+            "setpassword",
+            &format!("--newpassword=\"{}\"", password),
+            &format!("\"{}\"", username)
+        ]
+    );
+
+    if let Ok(_) = result {
+        return true;
+    }
+
+    eprintln!("{:?}", result.err());
+    process::exit(1)
+}
