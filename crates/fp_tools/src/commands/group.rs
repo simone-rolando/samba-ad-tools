@@ -96,8 +96,6 @@ pub fn add_member(config: &ToolsConfiguration, group: &String, username: &String
 /// Returns:
 /// * `true` when the user is member, `false` on non-membership or operational error
 /// 
-/// 
-/// 
 pub fn check_membership(config: &ToolsConfiguration, group: &String, username: &String) -> bool {
     let result = common::run_command_with_output(
         &config.samba_path,
