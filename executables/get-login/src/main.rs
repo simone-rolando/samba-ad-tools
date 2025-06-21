@@ -2,7 +2,6 @@ use std::fs::canonicalize;
 use std::{fs::OpenOptions, process::exit};
 use std::io::prelude::*;
 use std::env::current_dir;
-
 use chrono::Datelike;
 use fp_tools::db::rget_login::filter_by_class;
 use fp_tools::{
